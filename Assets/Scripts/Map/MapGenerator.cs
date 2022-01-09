@@ -168,7 +168,7 @@ public class MapGenerator : MonoBehaviour
             return false;
 
         }
-        else if (point.x == rows && point.y == cols)
+        else if (point.x == 0 && point.y == cols - 1)
         {
             return false;
         }
