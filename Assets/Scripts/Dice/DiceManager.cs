@@ -27,12 +27,12 @@ public class DiceManager : MonoBehaviour
     #region Monobehaviour
     private void OnEnable()
     {
-        PlayerManager.onPlayerFinishedMove += NextTurn;
+        PlayerMovement.onPlayerFinishedMove += NextTurn;
     }
 
     private void OnDisable()
     {
-        PlayerManager.onPlayerFinishedMove -= NextTurn;
+        PlayerMovement.onPlayerFinishedMove -= NextTurn;
     }
     #endregion
 
@@ -60,7 +60,7 @@ public class DiceManager : MonoBehaviour
             image.sprite = diceItems[lastDice].image;
           
 
-            yield return new WaitForSeconds(.1f);
+            yield return new WaitForSeconds(.01f);
         }
 
         currentNumOfSteps = diceItems[lastDice].step + previousNumOfSteps;
