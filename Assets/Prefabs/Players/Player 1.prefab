@@ -48,9 +48,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 0
-  color: {r: 0.16470589, g: 0.9607844, b: 0.28627452, a: 0}
+  color: {r: 0.16470589, g: 0.9607844, b: 0.28627452, a: 1}
   stepTime: 0.2
   movingSpeed: 5
+  currentState: 0
 --- !u!114 &5139716629683474868
 MonoBehaviour:
   m_ObjectHideFlags: 0

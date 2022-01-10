@@ -10,7 +10,11 @@ public class FinishTile : Tile
     {
         base.OnCollisionEnter(collision);
         //StopCoroutine(playersIndex[currentPlayerCount - 1].movePlayer);
-        
+
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.gameObject.GetComponent<PlayerMovement>().currentState = PlayerMovement.PlayerState.FINISHED;
+        }
 
         if (currentPlayerCount == 3)
         {

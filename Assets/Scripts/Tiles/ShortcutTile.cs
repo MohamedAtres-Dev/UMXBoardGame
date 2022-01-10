@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ShortcutTile : Tile
@@ -10,13 +9,14 @@ public class ShortcutTile : Tile
     {
         if ((currentTilePosition.y + 1) < GameManager.Instance.numOfRows)
         {
-            numOfMovingTiles = Random.Range(1, 2);
+            numOfMovingTiles = Random.Range(1, 3);
         }
         else
         {
             numOfMovingTiles = 1;
         }
-        
+
+
     }
 
     protected override void OnCollisionEnter(Collision collision)
@@ -29,12 +29,23 @@ public class ShortcutTile : Tile
         if (collision.gameObject.CompareTag("Player"))
         {
             var player = collision.gameObject.GetComponent<PlayerMovement>();
-            
-            //Move the Player to the lead tile 
-            for (int i = 0; i < numOfMovingTiles; i++)
+
+
+            if (player.currentState == PlayerMovement.PlayerState.STOPPING)
             {
-                player.MoveMechanic(new Vector2(0, 1));
+                StartCoroutine(MovePlayer(player));            
             }
+
+        }
+    }
+
+    IEnumerator MovePlayer(PlayerMovement player)
+    {
+        //Move the Player to the lead tile 
+        for (int i = 0; i < numOfMovingTiles; i++)
+        {    
+            player.MoveMechanic(new Vector2(0, 1));
+            yield return new WaitForSeconds(0.2f);
         }
     }
 }

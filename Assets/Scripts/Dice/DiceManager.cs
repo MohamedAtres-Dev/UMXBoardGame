@@ -53,6 +53,7 @@ public class DiceManager : MonoBehaviour
     {
         shuffleInProgress = true;
         yield return new WaitForSeconds(0);
+        //image.transform.localScale = Vector3.one;
         image.gameObject.SetActive(true);
         for (int i = 0; i < 30; i++)
         {
@@ -77,14 +78,11 @@ public class DiceManager : MonoBehaviour
             
             if (diceItems[lastDice].step == 6)  //The Player will lose his turn 
             {
+                Debug.Log("Player Second Six ");
+                yield return new WaitForSeconds(0.4f);
+                image.sprite = diceItems[0].image;
                 Debug.Log("Player lose this turn " );
-                GameManager.Instance.currentTurn++;
-                if (GameManager.Instance.currentTurn > 3)
-                {
-                    GameManager.Instance.currentTurn = 0;
-                }
-
-                GameManager.Instance.statusTxt.text = "Player " + (GameManager.Instance.currentTurn + 1) + " Turn";
+                GameManager.Instance.IncreaseCurrentTurn();
                 onSendDiceNum.Invoke(0, false);
                 numOfFullDice = 0;
                 NextTurn();
@@ -99,15 +97,14 @@ public class DiceManager : MonoBehaviour
                     numOfSkips++;
                 }
                 Debug.Log("Player Can Skip this turn " + currentNumOfSteps);
+                numOfFullDice = 0;
                 onSendDiceNum.Invoke(currentNumOfSteps, false);
                 canPlayDice = false;
             }
 
         }
 
-        
-
-       
+           
         shuffleInProgress = false;
 
     }
@@ -125,6 +122,7 @@ public class DiceManager : MonoBehaviour
         canPlayDice = true; 
         numOfSkips = 0;
         previousNumOfSteps = 0;
+        image.sprite = diceItems[0].image;
     }
 
     #endregion

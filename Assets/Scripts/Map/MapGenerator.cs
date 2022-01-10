@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 /// <summary>
 /// THis script is responsible for Generate tiles and reposition them 
 /// </summary>
@@ -103,7 +105,7 @@ public class MapGenerator : MonoBehaviour
                             InstanstiateTile(item.prefab, new Vector2(i, j));
                         }
                     }
-                    Debug.Log("Special Type");
+                   
                 }
 
             }

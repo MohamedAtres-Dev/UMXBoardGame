@@ -8,8 +8,6 @@ public abstract class Tile : MonoBehaviour
     public Vector2 currentTilePosition;
     protected int currentPlayerCount = 0;
 
-    
-
     protected List<PlayerMovement> playersIndex = new List<PlayerMovement>();
 
     protected virtual void OnCollisionEnter(Collision collision)

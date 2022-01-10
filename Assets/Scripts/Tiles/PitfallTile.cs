@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class PitfallTile : Tile
 {
@@ -8,7 +9,7 @@ public class PitfallTile : Tile
     {
         if(currentTilePosition.y > 2)
         {
-            numOfMovingTiles = Random.Range(1, 2);
+            numOfMovingTiles = Random.Range(1, 3);
         }
         else
         {
@@ -29,13 +30,23 @@ public class PitfallTile : Tile
         {
             var player = collision.gameObject.GetComponent<PlayerMovement>();
             
-
-            //Move the Player to the lead tile 
-            for (int i = 0; i < numOfMovingTiles; i++)
+            if(player.currentState == PlayerMovement.PlayerState.STOPPING)
             {
-                player.MoveMechanic(new Vector2(0 , -1));
+                //Move the Player to the lead tile 
+                StartCoroutine(MovePlayer(player));
             }
+
              
         }
     }
+
+    IEnumerator MovePlayer(PlayerMovement player)
+    {
+        for (int i = 0; i < numOfMovingTiles; i++)
+        {
+            player.MoveMechanic(new Vector2(0, -1));
+            yield return new WaitForSeconds(0.2f);
+        }
+    }
+
 }
