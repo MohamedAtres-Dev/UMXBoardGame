@@ -1,13 +1,18 @@
 using UnityEngine;
 using System.Collections;
-
+/// <summary>
+/// THis script is for Pitfall tile which is a special tile
+/// </summary>
 public class PitfallTile : Tile
 {
+
+    //the number of moving tiles that which this tile will contain to move the player
     int numOfMovingTiles;
 
     private void OnEnable()
     {
-        if(currentTilePosition.y > 2)
+        //Set the number depends on the position of this tile 
+        if (currentTilePosition.y > 2)
         {
             numOfMovingTiles = Random.Range(1, 3);
         }
@@ -26,17 +31,20 @@ public class PitfallTile : Tile
 
     private void OnCollisionStay(Collision collision)
     {
+
+        //Move the Player for Lead tile 
         if (collision.gameObject.CompareTag("Player"))
         {
             var player = collision.gameObject.GetComponent<PlayerMovement>();
             
             if(player.currentState == PlayerMovement.PlayerState.STOPPING)
             {
-                //Move the Player to the lead tile 
-                StartCoroutine(MovePlayer(player));
-            }
 
-             
+                //Play Special sound
+                audioManager.PlaySound(playableSound);
+                             
+                StartCoroutine(MovePlayer(player));
+            }           
         }
     }
 

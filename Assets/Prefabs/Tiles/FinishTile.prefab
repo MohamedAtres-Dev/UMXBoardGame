@@ -223,7 +223,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentTilePosition: {x: 0, y: 0}
-  playersPos: []
+  audioManager: {fileID: 11400000, guid: 385849822ffa85941944aafc8feef1a3, type: 2}
+  playableSound: {fileID: 8300000, guid: 39ed97de17b6f414ea1d1611a8032653, type: 3}
+  winEffect: {fileID: 5044187115390435047, guid: 5c6ce1ee22f0e9140965ab975cafe594, type: 3}
 --- !u!65 &3036672915937221236
 BoxCollider:
   m_ObjectHideFlags: 0

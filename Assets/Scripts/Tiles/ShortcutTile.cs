@@ -1,13 +1,21 @@
 using System.Collections;
 using UnityEngine;
 
+
+/// <summary>
+/// THis script is for shortcut tile which is a special tile 
+/// </summary>
 public class ShortcutTile : Tile
 {
+
+    //the number of moving tiles that which this tile will contain to move the player
     int numOfMovingTiles;
 
+   
     private void OnEnable()
     {
-        if ((currentTilePosition.y + 1) < GameManager.Instance.numOfRows)
+        //Set the number depends on the position of this tile 
+        if ((currentTilePosition.y + 2) < GameManager.Instance.numOfRows)
         {
             numOfMovingTiles = Random.Range(1, 3);
         }
@@ -26,6 +34,8 @@ public class ShortcutTile : Tile
 
     private void OnCollisionStay(Collision collision)
     {
+
+        //Move the Player for Lead tile 
         if (collision.gameObject.CompareTag("Player"))
         {
             var player = collision.gameObject.GetComponent<PlayerMovement>();
@@ -33,6 +43,9 @@ public class ShortcutTile : Tile
 
             if (player.currentState == PlayerMovement.PlayerState.STOPPING)
             {
+                //Play Special sound
+                audioManager.PlaySound(playableSound);
+
                 StartCoroutine(MovePlayer(player));            
             }
 

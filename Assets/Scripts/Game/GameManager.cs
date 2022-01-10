@@ -4,10 +4,16 @@ using TMPro;
 using UnityEngine.UI;
 using System.Linq;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
+
+/// <summary>
+/// THis is the main connector and Manager to the flow of the game 
+/// </summary>
 public class GameManager : Singlton<GameManager>
 {
     #region Variables
+    [SerializeField] private AudioManager _audioManager = default;
 
     public int numOfRows;
     public int numOfCols;
@@ -23,7 +29,6 @@ public class GameManager : Singlton<GameManager>
     [Space(5f)]
     [Header("UI Elements")]
     public TextMeshProUGUI statusTxt;
-    public TextMeshProUGUI infoTxt;
     public GameObject resultPanel;
     public List<TextMeshProUGUI> ranktxts = new List<TextMeshProUGUI>();
     public List<Image> rankColors = new List<Image>();
@@ -46,14 +51,24 @@ public class GameManager : Singlton<GameManager>
     private void Start()
     {
         //I have changed the exceution order in Project Settings of scripts so this is called after instantiating the map 
-        players = FindObjectsOfType<PlayerMovement>().ToList();   //Flip for List  
-        players.Reverse();
+        //I get this list to make special effects on the current player 
+        players = FindObjectsOfType<PlayerMovement>().ToList();    
+        players.Reverse(); //reverse the list as it order by acending 
 
+
+        //GEt the audio source and assign it to Audio manager so i can play sounds from any script 
+        _audioManager.Audio = GetComponent<AudioSource>();
     }
 
     #endregion
 
     #region Methods
+
+    /// <summary>
+    /// Listener to finished rolling dice to get the final number of steps also is it has number 6 or not
+    /// </summary>
+    /// <param name="num"></param>
+    /// <param name="_isFullDice"></param>
     private void SetDiceNum(int num, bool _isFullDice)
     {
         diceNum = num;
@@ -71,14 +86,32 @@ public class GameManager : Singlton<GameManager>
         {
             if (currentTurn == players[i].index)
             {
-                var mat = players[i].transform.GetChild(0).gameObject.GetComponent<Material>();
+                var mat = players[i].transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material;
+                
                 //Make Flasher on the material
-
-                //mat.SetColor("_EmissionColor", Color.red);
+                StartCoroutine(FlashTheCurrentPlayer(mat, i));
             }
         }
     }
 
+    IEnumerator FlashTheCurrentPlayer(Material playerMAt , int index)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            playerMAt.SetColor("_EmissionColor", Color.white);
+            
+            yield return new WaitForSeconds(0.1f);
+            playerMAt.SetColor("_EmissionColor", players[index].color);
+            yield return new WaitForSeconds(0.1f);
+        }
+
+
+    }
+
+
+    /// <summary>
+    /// Go to Next Player turn
+    /// </summary>
     public void IncreaseCurrentTurn()
     {
         currentTurn++;
@@ -92,6 +125,10 @@ public class GameManager : Singlton<GameManager>
         statusTxt.text = "Player " + (currentTurn + 1) + " Turn";
     }
 
+
+    /// <summary>
+    /// Check if the current player is finished so I can skip his turn
+    /// </summary>
     private void CheckTheStateOFPlayer()
     {
         if (players[currentTurn].currentState == PlayerMovement.PlayerState.FINISHED)

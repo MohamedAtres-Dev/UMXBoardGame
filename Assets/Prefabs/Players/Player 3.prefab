@@ -47,9 +47,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3d838b4b10cc37449233e33f6c25c6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioManager: {fileID: 11400000, guid: 385849822ffa85941944aafc8feef1a3, type: 2}
+  moveSound: {fileID: 8300000, guid: b5b0fa42947837a4ea57f370a67de0d9, type: 3}
   index: 2
   color: {r: 0.9607844, g: 0.11764707, b: 0.14117648, a: 1}
-  stepTime: 0.2
+  stepTime: 0.3
   movingSpeed: 5
   currentState: 0
 --- !u!114 &6604079380981586664
